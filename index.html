@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Click Counter with No Purpose</title>
+  <style>
+    body {
+        font-family: 'Comic Sans MS', sans-serif;
+        text-align: center;
+        margin-top: 100px;
+        background: linear-gradient(135deg, #ffd89b, #19547b);
+        color: #fff;
+        min-height: 83vh;
+        overflow-x: hidden;
+    }
+    .btn {
+      margin: auto;
+      width: 300px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 20px;
+      cursor: pointer;
+      border: none;
+      background-color: #ff6600;
+      color: white;
+      border-radius: 50px;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #ff3300;
+      transform: scale(1.15) rotate(-2deg);
+    }
+    button:active {
+      transform: scale(0.9);
+    }
+    .res p {
+      font-size: 22px;
+      margin: 20px 0 10px;
+      min-height: 28px;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    }
+    /* Funny shake animation for certain milestones */
+    .shake {
+      animation: shake 0.4s ease-in-out 3;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+    }
+    /* Floating text effect for fun */
+    .floating {
+      position: absolute;
+      font-size: 18px;
+      animation: floatUp 1s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-50px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="btn">
+    <button id="clickbtn">CLICK HERE</button>
+    <div class="res">
+      <p id="result">0</p>
+    </div>
+    <div class="res">
+      <p id="certificate"></p>
+    </div>
+  </div>
+
+  <script>
+    const clickbtn = document.getElementById("clickbtn");
+    const result = document.getElementById("result");
+    const certificate = document.getElementById("certificate");
+
+    const milestones = {
+      1: "A humble beginning.",
+      5: "Getting the hang of it.",
+      10: "Persistence detected.",
+      25: "Finger exercise complete.",
+      50: "Certified Time Waster.",
+      75: "Do you even have a life?",
+      100: "You win… nothing.",
+      150: "Your mouse is crying.",
+      200: "World Record in Pointlessness.",
+      500: "Okay… stop."
+    };
+
+    let count = 0;
+
+    clickbtn.addEventListener("click", () => {
+      count++;
+      result.textContent = count;
+
+      // Create floating "+1" effect
+      let floatText = document.createElement("span");
+      floatText.className = "floating";
+      floatText.style.left = (Math.random() * window.innerWidth) + "px";
+      floatText.style.top = (clickbtn.getBoundingClientRect().top - 30) + "px";
+      floatText.textContent = "+1";
+      document.body.appendChild(floatText);
+      setTimeout(() => floatText.remove(), 1000);
+
+      // Milestone message
+      if (milestones[count]) {
+        certificate.textContent = milestones[count];
+        certificate.classList.add("shake");
+        setTimeout(() => certificate.classList.remove("shake"), 600);
+      }
+
+      // Fun UX — change button text on certain counts
+      if (count === 25) clickbtn.textContent = "Still clicking?";
+      if (count === 50) clickbtn.textContent = "Wow. Just wow.";
+      if (count === 100) clickbtn.textContent = "Why are you still here?";
+      if (count === 500) clickbtn.textContent = "Okay, game over.";
+    });
+  </script>
+</body>
+</html>
